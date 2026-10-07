@@ -2,7 +2,13 @@
 
 Prácticas en una **Raspberry Pi 5**, controlada desde la laptop por Ethernet y SSH. Los programas viven en `~/teseom`, dentro del entorno virtual `.venv`, y se ejecutan con el usuario `aqua`.
 
-Los videos se publicaron **sin audio**. El código usado está en la carpeta [`codigo`](codigo).
+Los videos se publicaron **sin audio**. Cada práctica tiene su carpeta, su `README.md` y su documento de Word.
+
+| Práctica | Carpeta | Qué hace |
+| --- | --- | --- |
+| P1 | [P1_LedBlink](P1_LedBlink) | Enciende y apaga un LED cada 5 segundos |
+| P2 | [P2_SemaforoLeds](P2_SemaforoLeds) | Semáforo de tres LED, 3 segundos por color |
+| P3 | [P3_HolaMundoLCD](P3_HolaMundoLCD) | Escribe `hola TESOEM` en un LCD 20x4 por I²C |
 
 ## Equipo
 
@@ -98,7 +104,7 @@ ls /dev/i2c-*
 
 Resultado: `smbus2 OK` y los buses `/dev/i2c-1`, `/dev/i2c-13` y `/dev/i2c-14`. El LCD responde en el bus 1.
 
-## 1. Encender y apagar un LED
+## P1_LedBlink
 
 El LED usa **GPIO17**, pin físico **11**. La tierra es el pin físico **6**. Entre el GPIO y el LED va una resistencia de 220 Ω a 330 Ω. El LED no se conecta directo al GPIO.
 
@@ -112,7 +118,9 @@ Pin 11 (GPIO17) ── resistencia 220–330 Ω ──►|── GND (pin 6)
                                             LED
 ```
 
-Programa: [`codigo/led.py`](codigo/led.py)
+Programa: [`P1_LedBlink/led.py`](P1_LedBlink/led.py)
+
+Documentación de esta práctica: [README](P1_LedBlink/README.md) y [Word](P1_LedBlink/P1_LedBlink.docx)
 
 En la Pi:
 
@@ -124,9 +132,9 @@ python led.py
 
 El LED queda **5 segundos encendido** y **5 segundos apagado**. La terminal imprime `LED ON` y `LED OFF`. Con `Ctrl+C` se apaga el LED y aparece `Programa detenido.`
 
-Video, sin audio: [evidencia/led/video_encendido_apagado.mp4](evidencia/led/video_encendido_apagado.mp4)
+Video, sin audio: [P1_LedBlink/evidencia/video_encendido_apagado.mp4](P1_LedBlink/evidencia/video_encendido_apagado.mp4)
 
-## 2. Semáforo
+## P2_SemaforoLeds
 
 Tres LED. Cada uno tiene su resistencia de 220 Ω a 330 Ω. Los tres comparten la tierra del pin físico 6. La pata larga va hacia la resistencia y de ahí al GPIO. La pata corta va a GND.
 
@@ -144,7 +152,9 @@ GPIO22 (pin 15) ──[220 Ω]──►|── GND     verde
 GND = pin físico 6
 ```
 
-Programa: [`codigo/semaforo.py`](codigo/semaforo.py)
+Programa: [`P2_SemaforoLeds/semaforo.py`](P2_SemaforoLeds/semaforo.py)
+
+Documentación de esta práctica: [README](P2_SemaforoLeds/README.md) y [Word](P2_SemaforoLeds/P2_SemaforoLeds.docx)
 
 ```text
 python semaforo.py
@@ -152,9 +162,9 @@ python semaforo.py
 
 Solo uno está encendido a la vez, **3 segundos** cada color, en este orden: rojo, amarillo, verde. La terminal imprime `ROJO`, `AMARILLO` y `VERDE`. Con `Ctrl+C` se apagan los tres y aparece `Semáforo detenido.`
 
-Video, sin audio: [evidencia/semaforo/video_secuencia.mp4](evidencia/semaforo/video_secuencia.mp4)
+Video, sin audio: [P2_SemaforoLeds/evidencia/video_secuencia.mp4](P2_SemaforoLeds/evidencia/video_secuencia.mp4)
 
-## 3. Hola mundo en el LCD
+## P3_HolaMundoLCD
 
 El módulo es un LCD 20x4 con adaptador I²C. Los cuatro pines, confirmados en el módulo, son `GND`, `VCC`, `SDA` y `SCL`. Se conectó con la Raspberry apagada.
 
@@ -184,7 +194,9 @@ sudo i2cdetect -y 1
 
 En la fila `20` apareció `27`. La dirección del LCD es **0x27**, en el bus **1**.
 
-Como `RPLCD` no se pudo bajar, el programa [`codigo/lcd.py`](codigo/lcd.py) inicializa el controlador HD44780 en modo de 4 bits a través del adaptador PCF8574 y escribe en la primera línea.
+Como `RPLCD` no se pudo bajar, el programa [`P3_HolaMundoLCD/lcd.py`](P3_HolaMundoLCD/lcd.py) inicializa el controlador HD44780 en modo de 4 bits a través del adaptador PCF8574 y escribe en la primera línea.
+
+Documentación de esta práctica: [README](P3_HolaMundoLCD/README.md) y [Word](P3_HolaMundoLCD/P3_HolaMundoLCD.docx)
 
 ```text
 python lcd.py
@@ -199,33 +211,18 @@ Se muestra: hola TESOEM
 
 En la pantalla se lee `hola TESOEM`. El programa se queda en espera para que el texto no se borre al salir. `Ctrl+C` lo detiene.
 
-![LCD mostrando hola TESOEM](evidencia/lcd/foto_pantalla_hola_tesoem.jpg)
+![LCD mostrando hola TESOEM](P3_HolaMundoLCD/evidencia/foto_pantalla_hola_tesoem.jpg)
 
-![Terminal con python lcd.py](evidencia/lcd/foto_terminal_lcd.jpg)
+![Terminal con python lcd.py](P3_HolaMundoLCD/evidencia/foto_terminal_lcd.jpg)
 
-![Montaje: laptop, Raspberry Pi y LCD](evidencia/lcd/foto_montaje_general.jpg)
+![Montaje: laptop, Raspberry Pi y LCD](P3_HolaMundoLCD/evidencia/foto_montaje_general.jpg)
 
 ## Terminal del LED y del semáforo
 
-Estas dos capturas juntan las dos primeras prácticas en la misma toma, por eso no se cortaron.
+Estas dos capturas juntan P1 y P2 en la misma toma, por eso están en las dos carpetas y no se cortaron.
 
 El video dura unos 9 segundos. En la laptop se ve la salida `LED ON` / `LED OFF` y `Programa detenido.`, y después `python semaforo.py` con `ROJO`, `AMARILLO` y `VERDE`. Al fondo está la protoboard. No tiene audio.
 
-Video: [evidencia/terminal/video_led_y_semaforo.mp4](evidencia/terminal/video_led_y_semaforo.mp4)
+Video: [P1_LedBlink/evidencia/video_led_y_semaforo.mp4](P1_LedBlink/evidencia/video_led_y_semaforo.mp4)
 
-![Terminal del LED y del semáforo](evidencia/terminal/foto_terminal_led_y_semaforo.jpg)
-
-## Archivos
-
-| Qué | Dónde |
-| --- | --- |
-| LED, 5 s encendido y 5 s apagado | [`codigo/led.py`](codigo/led.py) |
-| Semáforo, 3 s por color | [`codigo/semaforo.py`](codigo/semaforo.py) |
-| LCD, texto `hola TESOEM` en `0x27` | [`codigo/lcd.py`](codigo/lcd.py) |
-| Video del LED | [evidencia/led/video_encendido_apagado.mp4](evidencia/led/video_encendido_apagado.mp4) |
-| Video del semáforo | [evidencia/semaforo/video_secuencia.mp4](evidencia/semaforo/video_secuencia.mp4) |
-| Foto del texto en el LCD | [evidencia/lcd/foto_pantalla_hola_tesoem.jpg](evidencia/lcd/foto_pantalla_hola_tesoem.jpg) |
-| Foto de la terminal del LCD | [evidencia/lcd/foto_terminal_lcd.jpg](evidencia/lcd/foto_terminal_lcd.jpg) |
-| Foto del montaje completo | [evidencia/lcd/foto_montaje_general.jpg](evidencia/lcd/foto_montaje_general.jpg) |
-| Video de las dos terminales | [evidencia/terminal/video_led_y_semaforo.mp4](evidencia/terminal/video_led_y_semaforo.mp4) |
-| Foto de las dos terminales | [evidencia/terminal/foto_terminal_led_y_semaforo.jpg](evidencia/terminal/foto_terminal_led_y_semaforo.jpg) |
+![Terminal del LED y del semáforo](P1_LedBlink/evidencia/foto_terminal_led_y_semaforo.jpg)
